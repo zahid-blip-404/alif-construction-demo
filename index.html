@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alif Construction Limited</title>
+<link rel="icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;600&amp;family=Noto+Sans+Bengali:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+  /* ---- Spaciaz motion system (measured spec) ---- */
+  @keyframes opalMoveUp { 0% { transform: translateY(100px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  @keyframes opalMoveLeft { 0% { transform: translateX(100px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  @keyframes opalMoveRight { 0% { transform: translateX(-100px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  @keyframes opalHelix { 0% { transform: rotateY(-180deg); opacity: 0; perspective: 1300px; } 100% { transform: rotateY(0); opacity: 1; } }
+  @keyframes marquee { 100% { transform: translateX(-50%); } }
+  @keyframes panScape { from { transform: translateX(0) scale(1.02); } to { transform: translateX(-8%) scale(1.06); } }
+  @keyframes spinRing { to { transform: rotate(360deg); } }
+  @keyframes train { from { transform: translateX(calc(100vw + 60px)); } to { transform: translateX(-1120px); } }
+  [data-oa] { visibility: hidden; }
+  [data-oa][data-oa-in] { visibility: visible; animation-duration: 0.75s; animation-fill-mode: both; animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  [data-oa="up"][data-oa-in] { animation-name: opalMoveUp; }
+  [data-oa="left"][data-oa-in] { animation-name: opalMoveLeft; }
+  [data-oa="right"][data-oa-in] { animation-name: opalMoveRight; }
+  [data-oa="helix"][data-oa-in] { animation-name: opalHelix; }
+  body { margin: 0; background: #FFFFFF; color: #4B4B4B; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.44; -webkit-font-smoothing: antialiased; }
+  a { color: #0B2447; text-underline-offset: 5px; }
+  a:hover { color: #4B4B4B; }
+  ::selection { background: #0B2447; color: #FFFFFF; }
+  :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+  [data-lang-toggle] { position: relative; padding: 4px; }
+  [data-lang-toggle] .thumb { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); background: #FFFFFF; border-radius: 8px; box-shadow: 0 1px 4px rgba(11,36,71,0.14), 0 0 0 0.8px rgba(11,36,71,0.05); transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  [data-lang-toggle][data-lang="bn"] .thumb { transform: translateX(100%); }
+  [data-lang-toggle] button { color: #8A8A8A; position: relative; z-index: 1; }
+  [data-lang-toggle][data-lang="en"] [data-seg="en"], [data-lang-toggle][data-lang="bn"] [data-seg="bn"] { color: #0B2447; font-weight: 700; }
+  [data-btn] .chip { transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  [data-btn]:hover .chip { transform: rotate(45deg); }
+  [data-marquee-track] { animation: marquee var(--marquee-dur, 30s) linear infinite; }
+  [data-marquee]:hover [data-marquee-track] { animation-play-state: paused; }
+  [data-train] { animation: train var(--train-dur, 16s) linear infinite; }
+  [data-media], [data-media] img { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  [data-card]:hover [data-media] { transform: scale(1.04); }
+  [data-nav-links] a:hover { text-decoration: underline; text-underline-offset: 6px; }
+  [data-menu-btn] { display: none; }
+  [data-menu-panel] { display: none; }
+  [data-menu="open"] [data-ic-burger] { display: none; }
+  [data-menu="closed"] [data-ic-close] { display: none; }
+  /* ---- Glass tile divider: two-bar swap wipe ---- */
+  .divider-icon { position: relative; padding-bottom: 15px; }
+  .divider-icon::before, .divider-icon::after { content: ""; position: absolute; display: block; width: calc(100% + 2px); left: -1px; bottom: 0; height: 1px; background: rgba(255,255,255,0.15); }
+  .divider-icon::before { transform: scaleX(0); transform-origin: 0 0; transition: 0.45s cubic-bezier(0.47, 0.05, 0.5, 0.94); }
+  .divider-icon::after { transform: scaleX(1); transform-origin: 100% 0; transition: 0.45s cubic-bezier(0.47, 0.05, 0.5, 0.94) 0.2s; }
+  .glass:hover .divider-icon::before, .glass:hover .divider-icon::after { background: #8FB3E8; }
+  .glass:hover .divider-icon::before { transform: scaleX(1); transition: 0.45s cubic-bezier(0.47, 0.05, 0.5, 0.94) 0.2s; }
+  .glass:hover .divider-icon::after { transform: scaleX(0); transition: 0.45s cubic-bezier(0.47, 0.05, 0.5, 0.94); }
+  /* ---- Corner bite fillets ---- */
+  .fillet { position: absolute; width: 30px; height: 30px; -webkit-mask: radial-gradient(circle 30px at 100% 0, transparent 28.8px, #000 30px); mask: radial-gradient(circle 30px at 100% 0, transparent 28.8px, #000 30px); }
+  /* ---- Service card ripple flood ---- */
+  .card-bite { position: relative; overflow: hidden; }
+  .card-bite::before { content: ""; position: absolute; z-index: 0; width: 40px; height: 40px; border-radius: 100%; background: #0B2447; top: 0; left: calc(100% - 40px); transform: scale3d(1,1,1); transform-style: preserve-3d; transition: 0.8s; }
+  .card-bite:hover::before { transform: scale3d(45,45,1); will-change: transform; }
+  .card-bite:hover .cb-title { color: #FFFFFF !important; }
+  .card-bite:hover .cb-sub { color: rgba(255,255,255,0.75) !important; }
+  .card-bite:hover .cb-chip { transform: rotate(45deg); background: #FFFFFF !important; color: #0B2447 !important; }
+  .liquid-img { mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(to top, #000 72%, transparent 100%); mask-image: linear-gradient(to top, #000 72%, transparent 100%); transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; }
+  .card-bite:hover .liquid-img { transform: translateY(-12px) scale(1.05); }
+  .cutout { mix-blend-mode: normal !important; -webkit-mask-image: none !important; mask-image: none !important; transform-origin: right bottom; }
+  .card-bite:hover .cutout { transform: scale(1.06); }
+  .card-bite .cb-sub { opacity: 0; transform: translateY(6px); transition: opacity 0.35s ease-out, transform 0.35s ease-out, color 0.3s !important; }
+  .card-bite:hover .cb-sub { opacity: 1; transform: none; transition: opacity 0.5s ease-out 0.42s, transform 0.5s ease-out 0.42s, color 0.2s ease-out 0.42s !important; }
+  @media (hover: none) { .card-bite .cb-sub { opacity: 1; transform: none; } }
+  @media (max-width: 1180px) {
+    [data-topbar-right] a:last-child, [data-topbar-sep] { display: none !important; }
+    [data-nav-links] { display: none !important; }
+    [data-menu-btn] { display: inline-flex; }
+    [data-menu="open"] [data-menu-panel] { display: block; }
+  }
+  @media (max-width: 980px) {
+    [data-hero-cards] { grid-template-columns: 1fr !important; }
+    [data-hero-state] { flex-direction: column; align-items: flex-start !important; gap: 18px !important; }
+    [data-intro-grid], [data-vision-grid], [data-diff-grid], [data-form-grid], [data-stats-split] { grid-template-columns: 1fr !important; }
+    [data-stats-cells] { grid-template-columns: 1fr 1fr !important; }
+    [data-serv-grid], [data-serv-grid2], [data-proj-grid-a], [data-proj-grid-b] { grid-template-columns: 1fr !important; }
+    [data-stack-panel] { position: relative !important; top: auto !important; height: auto !important; min-height: 0 !important; }
+    [data-panel-grid] { grid-template-columns: 1fr !important; gap: 28px !important; min-height: 0 !important; }
+    [data-panel-media] { height: clamp(260px, 52vw, 400px) !important; order: -1; }
+    [data-footer-grid] { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+  }
+  @media (max-width: 640px) {
+    [data-wa-label] { display: none; }
+    [data-topbar-right] { display: none !important; }
+    [data-nav-wa] { padding: 5px !important; }
+    [data-footer-grid] { grid-template-columns: 1fr !important; gap: 36px !important; }
+    [data-train] { width: 720px !important; bottom: -12px !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-oa] { visibility: visible !important; animation: none !important; }
+    [data-anim] { animation: none !important; }
+    [data-train] { animation: none !important; transform: translateX(8vw); }
+    [data-marquee-track] { animation: none !important; }
+    .card-bite::before { transition: none !important; }
+    .liquid-img { transition: none !important; }
+    .card-bite .cb-sub { opacity: 1 !important; transform: none !important; }
+    [data-lang-toggle] .thumb { transition: none !important; }
+  }
+</style>
+<link rel="stylesheet" href="css/site.css">
+<script src="js/site.js" defer></script>
+</head>
+<body>
+<div style="background: #FFFFFF;">
+  <header data-menu="closed" style="position: absolute; top: 0; left: 0; right: 0; z-index: 100;">
+    <div data-topbar="" style="background: #0B2447; color: #FFFFFF;">
+      <div style="max-width: 1290px; margin: 0 auto; padding: 0 clamp(16px, 2.4vw, 30px); min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+        <p style="margin: 0; font-size: 13.5px; color: rgba(255,255,255,0.85);">Have a project in mind? <a href="contact.html" style="color: #FFFFFF; font-weight: 600; text-decoration: underline; text-underline-offset: 4px;" data-hv="1">Contact with us</a></p>
+        <div data-topbar-right="" style="display: flex; align-items: center; gap: 24px;">
+          <a href="tel:+8801318588248" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: rgba(255,255,255,0.85); text-decoration: none;" data-hv="2"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M6.8 10.6a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011-.25c1.14.38 2.36.58 3.65.58a1 1 0 011 1V20a1 1 0 01-1 1C11.3 21 3 12.7 3 3.75a1 1 0 011-1h3.7a1 1 0 011 1c0 1.3.2 2.5.58 3.65a1 1 0 01-.25 1z" fill="currentColor"></path></svg><span>Call us: +880 1318-588248</span></a>
+          <span aria-hidden="true" data-topbar-sep="" style="width: 0.8px; height: 18px; background: rgba(255,255,255,0.25);"></span>
+          <a href="mailto:msalifconstruction@outlook.com" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: rgba(255,255,255,0.85); text-decoration: none;" data-hv="2"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px;"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"></rect><path d="M3.5 6.5L12 13l8.5-6.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Send mail: msalifconstruction@outlook.com</span></a>
+        </div>
+      </div>
+    </div>
+    <div style="background: rgba(255,255,255,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+    <div style="max-width: 1290px; margin: 0 auto; display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); padding: 12px clamp(16px, 2.4vw, 30px);">
+      <a href="index.html" aria-label="Alif Construction Limited, home" style="display: flex; align-items: center; gap: 12px; text-decoration: none; margin-right: auto; flex-shrink: 0;">
+        <img src="assets/alif-mark-primary.svg" alt="" style="height: 36px; width: auto;">
+        <span style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; color: #0B2447; text-transform: uppercase; white-space: nowrap;">Alif Construction</span>
+          <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 8px; letter-spacing: 0.42em; color: #8A8A8A; text-transform: uppercase;">Limited</span>
+        </span>
+      </a>
+      <nav data-nav-links="" aria-label="Primary" style="display: flex; align-items: center; gap: clamp(14px, 1.8vw, 26px);">
+        <a href="about.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">About</a>
+        <a href="services.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">Services</a>
+        <a href="projects.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">Projects</a>
+        <a href="clients.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">Clients</a>
+        <a href="gallery.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">Gallery</a>
+        <a href="contact.html" style="font-size: 16px; font-weight: 600; color: #0B2447; text-decoration: none;">Contact</a>
+      </nav>
+      <div data-lang-toggle="" data-lang="en" role="group" aria-label="Language" style="display: flex; background: #E8E9EC; border-radius: 12px; flex-shrink: 0;">
+        <span class="thumb" aria-hidden="true"></span>
+        <button type="button" data-seg="en" data-on="setEn" aria-pressed="true" style="background: transparent; border: none; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 12.5px; letter-spacing: 0.1em; width: 44px; padding: 0; min-height: 36px; transition: color 0.25s;">EN</button>
+        <button type="button" data-seg="bn" lang="bn" data-on="setBn" aria-pressed="false" style="background: transparent; border: none; cursor: pointer; font-family: 'Noto Sans Bengali', 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 13.5px; width: 44px; padding: 0; min-height: 36px; transition: color 0.25s;">বাং</button>
+      </div>
+      <a data-nav-wa="" data-btn="" href="https://wa.me/8801672914871" target="_blank" rel="noopener" aria-label="WhatsApp" style="display: inline-flex; align-items: center; gap: 14px; background: #0B2447; border-radius: 30px; color: #FFFFFF; text-decoration: none; font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 700; padding: 5px 5px 5px 22px; flex-shrink: 0;" data-hv="3">
+        <span data-wa-label="">WhatsApp</span>
+        <span class="chip" style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #FFFFFF; color: #0B2447; flex: 0 0 auto;">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>
+        </span>
+      </a>
+      <button type="button" data-menu-btn="" data-on="toggleMenu" aria-expanded="false" aria-label="Menu" style="background: transparent; border: 0.8px solid #E0E0E0; border-radius: 50%; cursor: pointer; color: #0B2447; width: 44px; height: 44px; align-items: center; justify-content: center; flex-shrink: 0;">
+        <svg data-ic-burger="" viewBox="0 0 20 20" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M2 5.5h16M2 10h16M2 14.5h16" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"></path></svg>
+        <svg data-ic-close="" viewBox="0 0 20 20" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M4.5 4.5l11 11M15.5 4.5l-11 11" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    </div>
+    <nav data-menu-panel="" aria-label="Primary, mobile" style="max-width: calc(100% - 24px); margin: 8px auto 0; background: #FFFFFF; border-radius: 24px; box-shadow: 0 10px 40px rgba(11,36,71,0.12); padding: 10px 26px;">
+      <a href="about.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none; border-bottom: 0.8px solid #E0E0E0;">About</a>
+      <a href="services.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none; border-bottom: 0.8px solid #E0E0E0;">Services</a>
+      <a href="projects.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none; border-bottom: 0.8px solid #E0E0E0;">Projects</a>
+      <a href="clients.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none; border-bottom: 0.8px solid #E0E0E0;">Clients</a>
+      <a href="gallery.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none; border-bottom: 0.8px solid #E0E0E0;">Gallery</a>
+      <a href="contact.html" data-on="closeMenu" style="display: block; padding: 14px 0; font-size: 17px; font-weight: 600; color: #0B2447; text-decoration: none;">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section style="position: relative; overflow: hidden;">
+      <img src="assets/hero-metro-station.jpg" alt="Dhaka Metro station platform under its arched roof" style="position: absolute; inset: 0; width: 100%; height: 100%; object-position: center 38%; object-fit: cover;">
+      <video data-hero-video="" autoplay muted loop playsinline preload="metadata" poster="assets/hero-metro-station.jpg" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-position: center 38%; object-fit: cover;"><source src="assets/hero-video.mp4" type="video/mp4"></video>
+      <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,12,26,0.72) 0%, rgba(11,36,71,0.32) 45%, rgba(11,36,71,0.38) 100%);"></div>
+      <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: -2px; height: clamp(107px, 13vh, 137px); background: #FFFFFF; border-radius: 50px 50px 0 0; z-index: 1;"></div>
+      <div style="position: relative; z-index: 2; max-width: 1290px; margin: 0 auto; padding: clamp(170px, 22vh, 230px) 30px 0; box-sizing: border-box; display: flex; flex-direction: column; min-height: clamp(680px, 100vh, 1100px);">
+        <div style="text-align: center;">
+          <h1 data-oa="up" style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(40px, 5.6vw, 78px); line-height: 1.02; letter-spacing: -0.02em; color: #FFFFFF;">We build where<br>the city is watching</h1>
+        </div>
+        <div style="flex: 1; min-height: clamp(50px, 10vh, 140px);"></div>
+        <div style="max-width: 1180px; margin: 0 auto; width: 100%;">
+          
+          <div data-hero-state="" style="display: flex; align-items: center; justify-content: space-between; gap: 28px; padding-top: clamp(22px, 3vw, 36px); margin-bottom: clamp(26px, 4vh, 44px);">
+            <p data-oa="right" style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(18px, 1.8vw, 26px); line-height: 1.32; letter-spacing: -0.01em; color: #FFFFFF; max-width: 30ch;">We deliver Civil, renovation and architectural works on the projects Bangladesh watches most closely.</p>
+            <a data-btn="" data-oa="left" href="services.html" style="display: inline-flex; align-items: center; gap: 12px; background: #FFFFFF; border-radius: 30px; color: #0B2447; text-decoration: none; font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; padding: 5px 5px 5px 22px; flex-shrink: 0;" data-hv="4">
+              <span>View services</span>
+              <span class="chip" style="display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #0B2447; color: #FFFFFF; flex: 0 0 auto;">
+                <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 13px; height: 13px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+            </a>
+          </div>
+          <div data-hero-cards="" data-oa="up" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; padding-bottom: 44px;">
+            <div class="glass" style="background: linear-gradient(to bottom, rgba(8,16,32,0.66) 0%, rgba(8,16,32,0.46) 52%, rgba(38,52,74,0.42) 80%, rgba(255,255,255,0.9) 100%); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; padding: 40px 38px 56px; min-height: 240px; box-sizing: border-box;">
+              <div class="divider-icon">
+                <svg viewBox="0 0 28 28" aria-hidden="true" style="width: 44px; height: 44px; color: #8FB3E8;"><path d="M6 24V12l8-6 8 6v12" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><path d="M11 24v-7h6v7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path></svg>
+              </div>
+              <span style="display: block; margin-top: 20px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 23px; letter-spacing: -0.01em; color: #FFFFFF;">Engineer-approved delivery</span>
+              <span style="display: block; margin-top: 12px; font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 34ch;">Every material and method enters site through a reviewed submission under the engineer.</span>
+            </div>
+            <div class="glass" style="background: linear-gradient(to bottom, rgba(8,16,32,0.66) 0%, rgba(8,16,32,0.46) 52%, rgba(38,52,74,0.42) 80%, rgba(255,255,255,0.9) 100%); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; padding: 40px 38px 56px; min-height: 240px; box-sizing: border-box;">
+              <div class="divider-icon">
+                <svg viewBox="0 0 28 28" aria-hidden="true" style="width: 44px; height: 44px; color: #8FB3E8;"><circle cx="14" cy="9" r="4.5" stroke="currentColor" stroke-width="1.6" fill="none"></circle><path d="M5 24c1.4-4.4 4.8-7 9-7s7.6 2.6 9 7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"></path></svg>
+              </div>
+              <span style="display: block; margin-top: 20px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 23px; letter-spacing: -0.01em; color: #FFFFFF;">One accountable desk</span>
+              <span style="display: block; margin-top: 12px; font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 34ch;">A lean engineering core answers directly for every package, from tender to handover.</span>
+            </div>
+            <div class="glass" style="background: linear-gradient(to bottom, rgba(8,16,32,0.66) 0%, rgba(8,16,32,0.46) 52%, rgba(38,52,74,0.42) 80%, rgba(255,255,255,0.9) 100%); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; padding: 40px 38px 56px; min-height: 240px; box-sizing: border-box;">
+              <div class="divider-icon">
+                <svg viewBox="0 0 28 28" aria-hidden="true" style="width: 44px; height: 44px; color: #8FB3E8;"><path d="M14 3l9 4v6c0 5.5-3.6 9.8-9 12-5.4-2.2-9-6.5-9-12V7z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><path d="M10 14l3 3 5-6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </div>
+              <span style="display: block; margin-top: 20px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 23px; letter-spacing: -0.01em; color: #FFFFFF;">Safety-inducted workforce</span>
+              <span style="display: block; margin-top: 12px; font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 34ch;">Vetted crews scaled per package, inducted to the standards live public sites demand.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Credentials" style="position: relative; z-index: 2; background: #FFFFFF; margin-top: -3px; overflow: hidden; padding-top: clamp(12px, 2vw, 24px);">
+      <div data-marquee="" style="overflow: hidden; white-space: nowrap; padding: 14px 0;">
+        <div data-marquee-track="" aria-hidden="true" style="display: inline-flex;">
+          <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.22em; color: #0B2447; text-transform: uppercase; padding-right: 60px;">PWD&nbsp;&nbsp;·&nbsp;&nbsp;DMTCL&nbsp;&nbsp;·&nbsp;&nbsp;ITD&nbsp;&nbsp;·&nbsp;&nbsp;e-GP GOB&nbsp;&nbsp;·&nbsp;&nbsp;EST. 2019&nbsp;&nbsp;·&nbsp;&nbsp;DHAKA&nbsp;&nbsp;·&nbsp;&nbsp;PWD&nbsp;&nbsp;·&nbsp;&nbsp;DMTCL&nbsp;&nbsp;·&nbsp;&nbsp;ITD&nbsp;&nbsp;·&nbsp;&nbsp;e-GP GOB&nbsp;&nbsp;·&nbsp;&nbsp;EST. 2019&nbsp;&nbsp;·&nbsp;&nbsp;DHAKA&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+          <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.22em; color: #0B2447; text-transform: uppercase; padding-right: 60px;">PWD&nbsp;&nbsp;·&nbsp;&nbsp;DMTCL&nbsp;&nbsp;·&nbsp;&nbsp;ITD&nbsp;&nbsp;·&nbsp;&nbsp;e-GP GOB&nbsp;&nbsp;·&nbsp;&nbsp;EST. 2019&nbsp;&nbsp;·&nbsp;&nbsp;DHAKA&nbsp;&nbsp;·&nbsp;&nbsp;PWD&nbsp;&nbsp;·&nbsp;&nbsp;DMTCL&nbsp;&nbsp;·&nbsp;&nbsp;ITD&nbsp;&nbsp;·&nbsp;&nbsp;e-GP GOB&nbsp;&nbsp;·&nbsp;&nbsp;EST. 2019&nbsp;&nbsp;·&nbsp;&nbsp;DHAKA&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div data-train-zone="" style="position: relative; height: 100px; border-bottom: 2px solid #0B2447; overflow: hidden;">
+        <img data-train="" src="assets/metro-train.svg" alt="" style="position: absolute; bottom: -17px; left: 0; width: 1040px; height: auto;">
+      </div>
+    </section>
+
+    <section style="padding: clamp(80px, 10vw, 150px) 30px 0;">
+      <div style="max-width: 1290px; margin: 0 auto;">
+        <div data-intro-grid="" style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 30px 80px; align-items: start;">
+          <div>
+            <span data-oa="helix" style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border: 0.8px solid rgba(11,36,71,0.4); border-radius: 20px; padding: 8px 18px;"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #0B2447;"></span>Who we are</span>
+            <h2 data-oa="up" style="margin: 26px 0 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.02em; color: #0B2447; max-width: 18ch;">Dhaka's public infrastructure, delivered to contractor standards</h2>
+            <p data-oa="up" style="margin: 26px 0 0; font-size: 17px; line-height: 1.65; color: #4B4B4B; max-width: 54ch; text-wrap: pretty;">Alif Construction Limited is a civil construction company established in Dhaka in June 2019, enlisted on e-GP for Government of Bangladesh procurement. We deliver under Italian-Thai Development for DMTCL, and directly for the Public Works Department.</p>
+          </div>
+          <div data-oa="left" style="display: flex; flex-direction: column; padding-top: 10px;">
+            <div style="border-top: 0.8px solid #E0E0E0; padding: 26px 0 30px;">
+              <span style="display: inline-flex; align-items: center; gap: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px; color: #0B2447;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px;"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"></path><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7" fill="none"></circle></svg>
+                <span>Our vision</span>
+              </span>
+              <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.65; color: #4B4B4B; max-width: 42ch;">To be the subcontractor of record on the works Bangladesh is proudest of, trusted wherever the public is watching.</p>
+            </div>
+            <div style="border-top: 0.8px solid #E0E0E0; padding: 26px 0 0;">
+              <span style="display: inline-flex; align-items: center; gap: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px; color: #0B2447;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px;"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"></path></svg>
+                <span>Our mission</span>
+              </span>
+              <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.65; color: #4B4B4B; max-width: 42ch;">Deliver civil, renovation and architectural works to engineer approval, on live public sites, with one desk accountable.</p>
+            </div>
+          </div>
+        </div>
+        <div data-stats-split="" data-oa="up" style="display: grid; grid-template-columns: 630fr 630fr; gap: 30px; margin-top: clamp(44px, 6vw, 80px); align-items: stretch;">
+          <div style="position: relative; border-radius: 30px; min-height: clamp(320px, 40vw, 630px);">
+            <div data-media="" style="position: absolute; inset: 0; border-radius: 0 30px 30px 30px; overflow: hidden;">
+              <div class="img-slot" data-slot="who-photo" role="img" aria-label="Photograph [CLIENT]: site or team at work, PPE correct."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: site or team at work, PPE correct.</span></span></div>
+            </div>
+            <div aria-hidden="true" style="position: absolute; top: 0; left: 0; width: 220px; height: 60px; background: #FFFFFF; border-radius: 0 0 30px 0; z-index: 2;">
+              <span class="fillet" style="background: #FFFFFF; top: 0; right: -30px; transform: rotate(90deg);"></span>
+              <span class="fillet" style="background: #FFFFFF; bottom: -30px; left: 0; transform: rotate(90deg);"></span>
+              <span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; padding: 14px 0 0 4px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #0B2447;"></span>On site since 2019</span>
+            </div>
+          </div>
+          <div data-stats-cells="" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div style="background: #EDEFF3; border-radius: 25px; padding: 30px; display: flex; flex-direction: column;">
+              <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border-bottom: 0.8px solid #E0E0E0; padding-bottom: 14px;">Established</span>
+              <span style="margin-top: auto; padding-top: 40px;">
+                <span data-count="2019" data-count-plain="" style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(38px, 3.8vw, 56px); line-height: 1; letter-spacing: -0.02em; color: #0B2447;">2019</span>
+                <span style="display: block; margin-top: 8px; font-size: 15px; color: #8A8A8A;">June, Dhaka</span>
+              </span>
+            </div>
+            <div style="background: #EDEFF3; border-radius: 25px; padding: 30px; display: flex; flex-direction: column;">
+              <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border-bottom: 0.8px solid #E0E0E0; padding-bottom: 14px;">On the corridor</span>
+              <span style="margin-top: auto; padding-top: 40px;">
+                <span><span data-count="318" style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(38px, 3.8vw, 56px); line-height: 1; letter-spacing: -0.02em; color: #0B2447;">318</span><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(24px, 2.2vw, 32px); color: #8A8A8A;"> m</span></span>
+                <span style="display: block; margin-top: 8px; font-size: 15px; color: #8A8A8A;">Railing beside live traffic</span>
+              </span>
+            </div>
+            <div style="background: #EDEFF3; border-radius: 25px; padding: 30px; display: flex; flex-direction: column;">
+              <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border-bottom: 0.8px solid #E0E0E0; padding-bottom: 14px;">Procurement</span>
+              <span style="margin-top: auto; padding-top: 40px;">
+                <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(38px, 3.8vw, 56px); line-height: 1; letter-spacing: -0.02em; color: #0B2447;">e-GP</span>
+                <span style="display: block; margin-top: 8px; font-size: 15px; color: #8A8A8A;">GOB enlisted</span>
+              </span>
+            </div>
+            <div data-media="" style="border-radius: 25px; overflow: hidden; min-height: 200px;">
+              <div class="img-slot" data-slot="who-photo-2" role="img" aria-label="Photograph [CLIENT]: detail shot, glazing or finish work."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: detail shot, glazing or finish work.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #EDEFF3; margin-top: clamp(80px, 10vw, 150px); padding: clamp(80px, 10vw, 150px) 30px;">
+      <div style="max-width: 1290px; margin: 0 auto;">
+        <div style="text-align: center;">
+          <span data-oa="helix" style="display: inline-flex; align-items: center; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border: 0.8px solid rgba(11,36,71,0.4); border-radius: 20px; padding: 8px 18px; background: #FFFFFF;">What we offer</span>
+          <h2 data-oa="up" style="margin: 22px auto 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(32px, 4.4vw, 62px); line-height: 1.06; letter-spacing: -0.02em; color: #0B2447; max-width: 18ch;">Take a brief look at the works we deliver</h2>
+        </div>
+        <div data-serv-grid="" data-oa="up" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; margin-top: clamp(40px, 5.4vw, 64px);">
+          <a class="card-bite" data-card="" href="service-construction.html" style="display: block; position: relative; background: #FFFFFF; border-radius: 30px 0 30px 30px; padding: 40px 60px 0 40px; min-height: 370px; text-decoration: none; box-sizing: border-box;">
+            <span aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: #EDEFF3; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #EDEFF3; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #EDEFF3; top: 60px; right: 0; transform: rotate(180deg);"></span>
+            </span>
+            <span class="cb-chip" aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: #0B2447; border-radius: 50%; z-index: 3; display: grid; place-items: center; color: #FFFFFF; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, color 0.3s;">
+              <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="cb-title" style="position: relative; z-index: 1; display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; color: #0B2447; transition: color 0.3s;">Construction</span>
+            <span class="cb-sub" style="position: absolute; left: 40px; bottom: 30px; right: 43%; z-index: 2; display: block; font-size: 15px; line-height: 1.55; color: #8A8A8A; transition: color 0.3s;">Civil works on live public corridors: footpaths, pavements, railings and rain protection.</span>
+            <img class="liquid-img cutout" src="assets/construction-crane-cutout.webp" alt="" style="position: absolute; right: 0; bottom: 0; width: 62%; max-width: none; height: 285px; object-fit: cover; object-position: right bottom; z-index: 1;">
+          </a>
+          <a class="card-bite" data-card="" href="service-architectural-works.html" style="display: block; position: relative; background: #FFFFFF; border-radius: 30px 0 30px 30px; padding: 40px 60px 0 40px; min-height: 370px; text-decoration: none; box-sizing: border-box;">
+            <span aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: #EDEFF3; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #EDEFF3; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #EDEFF3; top: 60px; right: 0; transform: rotate(180deg);"></span>
+            </span>
+            <span class="cb-chip" aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: #0B2447; border-radius: 50%; z-index: 3; display: grid; place-items: center; color: #FFFFFF; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, color 0.3s;">
+              <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="cb-title" style="position: relative; z-index: 2; display: block; max-width: 44%; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; color: #0B2447; transition: color 0.3s;">Architectural works</span>
+            <span class="cb-sub" style="position: absolute; left: 40px; bottom: 30px; right: 53%; z-index: 2; display: block; font-size: 15px; line-height: 1.55; color: #8A8A8A; transition: color 0.3s;">Glazing, skylights, doors &amp; windows and ornamental finishes, to engineer approval.</span>
+            <img class="liquid-img cutout" src="assets/facade-cutout.webp" alt="" style="position: absolute; right: 0; top: 0; width: 52%; max-width: none; height: 100%; object-fit: cover; object-position: left center; z-index: 1;">
+          </a>
+          <a class="card-bite" data-card="" href="service-renovation-retrofit.html" style="display: block; position: relative; background: #FFFFFF; border-radius: 30px 0 30px 30px; padding: 40px 60px 0 40px; min-height: 370px; text-decoration: none; box-sizing: border-box;">
+            <span aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: #EDEFF3; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #EDEFF3; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #EDEFF3; top: 60px; right: 0; transform: rotate(180deg);"></span>
+            </span>
+            <span class="cb-chip" aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: #0B2447; border-radius: 50%; z-index: 3; display: grid; place-items: center; color: #FFFFFF; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, color 0.3s;">
+              <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="cb-title" style="position: relative; z-index: 1; display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; color: #0B2447; transition: color 0.3s;">Renovation &amp; retrofit</span>
+            <span class="cb-sub" style="position: relative; z-index: 2; display: block; margin-top: 10px; font-size: 15px; line-height: 1.5; color: #8A8A8A; transition: color 0.3s;">Occupied buildings renovated and retrofitted while they keep working.</span>
+            <img class="liquid-img cutout" src="assets/retrofit-cutout.webp" alt="" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; max-width: none; height: 262px; object-fit: contain; object-position: center bottom; z-index: 1;">
+          </a>
+        </div>
+        <div data-serv-grid2="" data-oa="up" style="display: grid; grid-template-columns: 630fr 630fr; gap: 30px; margin-top: 30px;">
+          <a class="card-bite" data-card="" href="service-real-estate.html" style="display: block; position: relative; background: #FFFFFF; border-radius: 30px 0 30px 30px; padding: 40px 60px 0 40px; min-height: 340px; text-decoration: none; box-sizing: border-box;">
+            <span aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: #EDEFF3; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #EDEFF3; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #EDEFF3; top: 60px; right: 0; transform: rotate(180deg);"></span>
+            </span>
+            <span class="cb-chip" aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: #0B2447; border-radius: 50%; z-index: 3; display: grid; place-items: center; color: #FFFFFF; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, color 0.3s;">
+              <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="cb-title" style="position: relative; z-index: 1; display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; color: #0B2447; transition: color 0.3s;">Real estate</span>
+            <span class="cb-sub" style="position: relative; z-index: 2; display: block; max-width: 55%; margin-top: 10px; font-size: 15px; line-height: 1.5; color: #8A8A8A; transition: color 0.3s;">Residential and commercial development, delivered to the same site standards.</span>
+            <img class="liquid-img cutout" src="assets/realestate-cutout.webp" alt="" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; max-width: none; height: 272px; object-fit: contain; object-position: right bottom; z-index: 1;">
+          </a>
+          <a class="card-bite" data-card="" href="service-project-management.html" style="display: block; position: relative; background: #FFFFFF; border-radius: 30px 0 30px 30px; padding: 40px 60px 0 40px; min-height: 340px; text-decoration: none; box-sizing: border-box;">
+            <span aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: #EDEFF3; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #EDEFF3; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #EDEFF3; top: 60px; right: 0; transform: rotate(180deg);"></span>
+            </span>
+            <span class="cb-chip" aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: #0B2447; border-radius: 50%; z-index: 3; display: grid; place-items: center; color: #FFFFFF; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s, color 0.3s;">
+              <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </span>
+            <span class="cb-title" style="position: relative; z-index: 1; display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; color: #0B2447; transition: color 0.3s;">Project management</span>
+            <span class="cb-sub" style="position: relative; z-index: 2; display: block; max-width: 55%; margin-top: 10px; font-size: 15px; line-height: 1.5; color: #8A8A8A; transition: color 0.3s;">One desk from tender to handover: submissions, programme and site control.</span>
+            <img class="liquid-img cutout" src="assets/pm-cutout.webp" alt="" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; max-width: none; height: 272px; object-fit: contain; object-position: right bottom; z-index: 1;">
+          </a>
+        </div>
+        <p data-oa="up" style="margin: clamp(28px, 4vw, 40px) auto 0; text-align: center; font-size: 15px; color: #4B4B4B;">Delivered under engineer review, on live public sites. <a href="services.html" style="font-weight: 600;">View all services</a></p>
+      </div>
+    </section>
+
+    <section style="padding: clamp(80px, 10vw, 150px) 30px 0;">
+      <div style="max-width: 1290px; margin: 0 auto;">
+        <span data-oa="helix" style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border: 0.8px solid rgba(11,36,71,0.4); border-radius: 20px; padding: 8px 18px;"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #0B2447;"></span>Projects · 04</span>
+        <div data-oa="up" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; flex-wrap: wrap; margin-top: 18px;">
+          <h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(32px, 4.4vw, 62px); line-height: 1.06; letter-spacing: -0.02em; color: #0B2447; max-width: 14ch;">Explore our recent projects</h2>
+          <a data-btn="" href="projects.html" style="display: inline-flex; align-items: center; gap: 14px; background: transparent; border: 0.8px solid rgba(11,36,71,0.35); border-radius: 30px; color: #0B2447; text-decoration: none; font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 700; padding: 5px 5px 5px 26px; white-space: nowrap;" data-hv="7">
+            <span>All projects</span>
+            <span class="chip" style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #0B2447; color: #FFFFFF; flex: 0 0 auto;"><svg viewBox="0 0 20 20" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+          </a>
+        </div>
+        <div data-proj-grid-a="" data-oa="up" style="display: grid; grid-template-columns: 7fr 5fr; gap: 30px; margin-top: clamp(36px, 5vw, 56px);">
+          
+          <a data-card="" href="project-kamalapur-s17.html" style="display: block; text-decoration: none;">
+            <span style="position: relative; display: block; height: clamp(260px, 30vw, 420px); border-radius: 30px; overflow: hidden;">
+              <span data-media="" style="display: block; width: 100%; height: 100%;"><div class="img-slot" data-slot="proj-s17" role="img" aria-label="Photograph [CLIENT]: Kamalapur S17, glazing in progress."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: Kamalapur S17, glazing in progress.</span></span></div></span>
+              <span style="position: absolute; top: 18px; left: 18px; z-index: 2; display: inline-flex; align-items: center; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #FFFFFF; background: #0B2447; border-radius: 30px; padding: 7px 14px;">Ongoing</span>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 13px; color: #8A8A8A;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><path d="M12 21s-7-5.6-7-11a7 7 0 0114 0c0 5.4-7 11-7 11z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"></circle></svg>Kamalapur, Dhaka</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.01em; color: #0B2447;">Kamalapur Station S17</span>
+          </a>
+          
+          <a data-card="" href="project-railings-footpaths.html" style="display: block; text-decoration: none;">
+            <span style="position: relative; display: block; height: clamp(260px, 30vw, 420px); border-radius: 30px; overflow: hidden;">
+              <span data-media="" style="display: block; width: 100%; height: 100%;"><div class="img-slot" data-slot="proj-railing" role="img" aria-label="Photograph [CLIENT]: viaduct railing beside live traffic."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: viaduct railing beside live traffic.</span></span></div></span>
+              
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 13px; color: #8A8A8A;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><path d="M12 21s-7-5.6-7-11a7 7 0 0114 0c0 5.4-7 11-7 11z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"></circle></svg>Uttara toward Agargaon</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.01em; color: #0B2447;">Railings &amp; footpaths · 318 m</span>
+          </a>
+        </div>
+        <div data-proj-grid-b="" data-oa="up" style="display: grid; grid-template-columns: 5fr 7fr; gap: 30px; margin-top: 30px;">
+          
+          <a data-card="" href="project-pwd-bhaban.html" style="display: block; text-decoration: none;">
+            <span style="position: relative; display: block; height: clamp(240px, 26vw, 380px); border-radius: 30px; overflow: hidden;">
+              <span data-media="" style="display: block; width: 100%; height: 100%;"><div class="img-slot" data-slot="proj-pwd" role="img" aria-label="Photograph [CLIENT]: PWD bhaban facade or interior works."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: PWD bhaban facade or interior works.</span></span></div></span>
+              
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 13px; color: #8A8A8A;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><path d="M12 21s-7-5.6-7-11a7 7 0 0114 0c0 5.4-7 11-7 11z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"></circle></svg>Segunbagicha, Dhaka</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.01em; color: #0B2447;">PWD Bhaban renovation</span>
+          </a>
+          
+          <a data-card="" href="project-rain-protection.html" style="display: block; text-decoration: none;">
+            <span style="position: relative; display: block; height: clamp(240px, 26vw, 380px); border-radius: 30px; overflow: hidden;">
+              <span data-media="" style="display: block; width: 100%; height: 100%;"><div class="img-slot" data-slot="proj-rain" role="img" aria-label="Photograph [CLIENT]: rain protection works at an operating station."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: rain protection works at an operating station.</span></span></div></span>
+              
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; font-size: 13px; color: #8A8A8A;"><svg viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px;"><path d="M12 21s-7-5.6-7-11a7 7 0 0114 0c0 5.4-7 11-7 11z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6" fill="none"></circle></svg>Stations S02–S07</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.01em; color: #0B2447;">Rain protection works</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: clamp(80px, 10vw, 150px) 30px 0;">
+      <div style="max-width: 1290px; margin: 0 auto;">
+        <div data-diff-grid="" style="display: grid; grid-template-columns: 545fr 666fr; gap: 30px 80px; align-items: center;">
+          <div data-oa="right" style="position: relative; border-radius: 30px; min-height: clamp(360px, 40vw, 560px);">
+            <div data-media="" style="position: absolute; inset: 0; border-radius: 30px 0 30px 30px; overflow: hidden;">
+              <div class="img-slot" data-slot="diff-photo" role="img" aria-label="Photograph [CLIENT]: crew at work on site, PPE correct."><span class="frame"></span><span class="ring"></span><span class="empty"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg><span class="cap">Photograph [CLIENT]: crew at work on site, PPE correct.</span></span></div>
+            </div>
+            <div aria-hidden="true" style="position: absolute; top: 0; right: 0; width: 220px; height: 60px; background: #FFFFFF; border-radius: 0 0 0 30px; z-index: 2;">
+              <span class="fillet" style="background: #FFFFFF; top: 0; left: -30px; transform: rotate(180deg);"></span>
+              <span class="fillet" style="background: #FFFFFF; bottom: -30px; right: 0; transform: rotate(180deg);"></span>
+            </div>
+          </div>
+          <div>
+            <span data-oa="helix" style="display: inline-flex; align-items: center; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border: 0.8px solid rgba(11,36,71,0.4); border-radius: 20px; padding: 8px 18px;">Commitment</span>
+            <h2 data-oa="up" style="margin: 20px 0 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(30px, 3.8vw, 54px); line-height: 1.08; letter-spacing: -0.02em; color: #0B2447;">What makes us different</h2>
+            <p data-oa="up" style="margin: 18px 0 0; font-size: 17px; line-height: 1.6; color: #4B4B4B; max-width: 52ch;">Public infrastructure does not close for construction. Our work is organised around delivering while the city keeps moving.</p>
+            <div data-oa="up" style="display: flex; align-items: flex-start; gap: 20px; border-top: 0.8px solid #E0E0E0; margin-top: 28px; padding-top: 24px;">
+              <span style="display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #0B2447; color: #FFFFFF; flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M12 2l7.5 3.5v5c0 4.6-3 8.2-7.5 10-4.5-1.8-7.5-5.4-7.5-10v-5z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"></path><path d="M8.5 12l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>
+                <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; color: #0B2447;">Safety on live sites</span>
+                <span style="display: block; margin-top: 6px; font-size: 15.5px; line-height: 1.55; color: #4B4B4B;">Inducted crews and controlled work zones beside operating traffic, stations and offices.</span>
+              </span>
+            </div>
+            <div data-oa="up" style="display: flex; align-items: flex-start; gap: 20px; border-top: 0.8px solid #E0E0E0; margin-top: 24px; padding-top: 24px;">
+              <span style="display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #0B2447; color: #FFFFFF; flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><path d="M6 3h9l4 4v14H6z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"></path><path d="M15 3v4h4M9.5 13l2 2 3.5-4" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </span>
+              <span>
+                <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; color: #0B2447;">Everything on paper</span>
+                <span style="display: block; margin-top: 6px; font-size: 15.5px; line-height: 1.55; color: #4B4B4B;">Materials, methods and revisions enter site through reviewed submissions under the engineer.</span>
+              </span>
+            </div>
+            <div data-oa="up" style="display: flex; align-items: flex-start; gap: 20px; border-top: 0.8px solid #E0E0E0; margin-top: 24px; padding-top: 24px;">
+              <span style="display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #0B2447; color: #FFFFFF; flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px;"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7" fill="none"></circle><path d="M5 20c1.2-3.6 3.9-5.5 7-5.5s5.8 1.9 7 5.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"></path></svg>
+              </span>
+              <span>
+                <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; color: #0B2447;">One desk, start to finish</span>
+                <span style="display: block; margin-top: 6px; font-size: 15.5px; line-height: 1.55; color: #4B4B4B;">The office that signs the tender answers for the handover. No layers in between.</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="position: relative; background: linear-gradient(#EDEFF3 0%, rgba(237,239,243,0) 100%); margin-top: clamp(80px, 10vw, 150px); padding: 0 30px clamp(40px, 6vw, 80px);">
+      <div style="position: relative; display: flex; justify-content: center;">
+        <svg viewBox="0 0 320 104" width="323" height="92" aria-hidden="true" style="display: block; margin-top: -1px;"><path fill="#FFFFFF" d="M0 0H320C290.545 0 267.772 24.6753 253.628 49.8666C235.516 82.1247 200.378 104 160 104C119.622 104 84.4835 82.1247 66.3718 49.8666C52.228 24.6753 29.4552 0 0 0Z"></path></svg>
+        <div style="position: absolute; top: -88px; left: 50%; transform: translateX(-50%); width: 188px; height: 188px; display: grid; place-items: center;">
+          <svg viewBox="0 0 188 188" aria-hidden="true" style="position: absolute; inset: 0; width: 188px; height: 188px; animation: spinRing 12s linear infinite;"><defs><path id="ringPath" d="M94,94 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path></defs><text style="font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; fill: #0B2447;"><textPath href="#ringPath" startOffset="0">· ALIF CONSTRUCTION</textPath><textPath href="#ringPath" startOffset="19.6%">· SAFETY FIRST</textPath><textPath href="#ringPath" startOffset="34.2%">· CLIENT REVIEWS</textPath></text></svg>
+          <span style="position: relative; display: grid; place-items: center; width: 140px; height: 140px; border-radius: 50%; background: #0B2447; z-index: 2;">
+            <img src="assets/alif-mark-reversed.svg" alt="" style="height: 64px; width: auto;">
+          </span>
+        </div>
+      </div>
+      <div style="max-width: 1290px; margin: 0 auto; padding-top: clamp(90px, 10vw, 130px);">
+        <div style="position: relative; max-width: 900px; margin: 0 auto; text-align: center;">
+          <button type="button" data-on="prevQuote" aria-label="Previous quote" style="position: absolute; left: -30px; top: 40%; width: 60px; height: 60px; border-radius: 50%; background: #FFFFFF; border: 0.8px solid #E0E0E0; cursor: pointer; display: grid; place-items: center; color: #0B2447;" data-hv="8"><svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button type="button" data-on="nextQuote" aria-label="Next quote" style="position: absolute; right: -30px; top: 40%; width: 60px; height: 60px; border-radius: 50%; background: #FFFFFF; border: 0.8px solid #E0E0E0; cursor: pointer; display: grid; place-items: center; color: #0B2447;" data-hv="8"><svg viewBox="0 0 20 20" aria-hidden="true" style="width: 15px; height: 15px;"><path d="M7.5 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div data-quote="0">
+            <blockquote style="margin: 0;">
+              <p style="margin: 0 auto; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.25; letter-spacing: -0.015em; color: #0B2447; max-width: 30ch; text-wrap: balance;">“They delivered the glazing package to engineer approval while the station stayed a live public site. The paperwork was ready before we asked for it.”</p>
+              <footer style="margin-top: clamp(24px, 3vw, 40px);">
+                <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; color: #0B2447; border-bottom: 1.5px solid #0B2447; display: inline-block; padding-bottom: 2px;">[Client name]</span>
+                <span style="display: block; margin-top: 8px; font-size: 14px; color: #8A8A8A;">Engineer’s representative · CP-03 &amp; CP-04</span>
+              </footer>
+            </blockquote></div>
+          <div data-quote="1" hidden>
+            <blockquote style="margin: 0;">
+              <p style="margin: 0 auto; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.25; letter-spacing: -0.015em; color: #0B2447; max-width: 30ch; text-wrap: balance;">“The bhaban never closed for a day. Their crews worked around our office hours and handed over exactly what the drawings said.”</p>
+              <footer style="margin-top: clamp(24px, 3vw, 40px);">
+                <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; color: #0B2447; border-bottom: 1.5px solid #0B2447; display: inline-block; padding-bottom: 2px;">[Client name]</span>
+                <span style="display: block; margin-top: 8px; font-size: 14px; color: #8A8A8A;">Project lead · PWD Segunbagicha</span>
+              </footer>
+            </blockquote></div>
+        </div>
+        <div aria-hidden="true" style="max-width: 820px; margin: clamp(48px, 6vw, 80px) auto 0; height: 0; border-top: 0.8px solid #E0E0E0;"></div>
+        <p style="margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.14em; color: #0B2447; text-transform: uppercase;">We're proud to work with the agencies Bangladesh watches</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: clamp(28px, 5vw, 64px); flex-wrap: wrap; margin-top: clamp(24px, 3vw, 40px);">
+          <span style="display: inline-flex; align-items: center; gap: 12px;"><img src="assets/logo-pwd.png" alt="PWD" style="height: 54px; width: auto;"><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: #4B4B4B;">PWD</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 12px;"><img src="assets/logo-dmtcl.png" alt="DMTCL" style="height: 54px; width: auto;"><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: #4B4B4B;">DMTCL</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 12px;"><img src="assets/logo-itd.jpg" alt="ITALIAN-THAI DEVELOPMENT" style="height: 46px; width: auto;"><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: #4B4B4B;">ITALIAN-THAI DEVELOPMENT</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 12px;"><img src="assets/logo-gob.png" alt="e-GP GOB" style="height: 54px; width: auto;"><span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; color: #4B4B4B;">e-GP GOB</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section style="position: relative; margin-top: clamp(60px, 8vw, 100px); padding: 0 30px;">
+      <div style="max-width: 1290px; margin: 0 auto; position: relative;">
+        <div style="position: relative; border-radius: 30px; overflow: hidden; padding: clamp(56px, 7vw, 104px) clamp(16px, 3vw, 64px);">
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=2200&amp;q=80&amp;auto=format&amp;fit=crop" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+          <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(11,36,71,0.4);"></div>
+          <div data-oa="up" style="position: relative; max-width: 900px; margin: 0 auto; background: #FFFFFF; border-radius: 30px; padding: clamp(40px, 5.4vw, 72px) clamp(24px, 4vw, 72px); text-align: center; overflow: hidden; isolation: isolate;">
+            <img data-anim="" src="assets/construction-silhouette.jpg" alt="" aria-hidden="true" style="position: absolute; left: -6%; bottom: 0; width: 112%; height: auto; opacity: 0.09; z-index: -1; animation: panScape 38s ease-in-out infinite alternate; transform-origin: center bottom;">
+            
+            
+            <span data-oa="helix" style="display: inline-flex; align-items: center; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; color: #0B2447; text-transform: uppercase; border: 0.8px solid rgba(11,36,71,0.4); border-radius: 20px; padding: 8px 18px;">Quick enquiry</span>
+            <h2 style="margin: 20px auto 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 40px); line-height: 1.14; letter-spacing: -0.015em; color: #0B2447; max-width: 24ch;">Get a call back about your civil, glazing or renovation package</h2>
+            <form data-form-grid="" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; max-width: 560px; margin: clamp(28px, 3.6vw, 44px) auto 0; text-align: left;" data-on="onSubmit">
+              <input data-field="" type="text" name="name" placeholder="Your name*" required style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #C9CFD9; border-radius: 30px; padding: 15px 26px; box-shadow: 0 2px 10px rgba(11,36,71,0.06); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; color: #4B4B4B;">
+              <input data-field="" type="email" name="email" placeholder="Email*" required style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #C9CFD9; border-radius: 30px; padding: 15px 26px; box-shadow: 0 2px 10px rgba(11,36,71,0.06); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; color: #4B4B4B;">
+              <input data-field="" type="tel" name="phone" placeholder="Phone number*" required style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #C9CFD9; border-radius: 30px; padding: 15px 26px; box-shadow: 0 2px 10px rgba(11,36,71,0.06); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; color: #4B4B4B;">
+              <select data-field="" name="about" aria-label="You enquire about" style="width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #C9CFD9; border-radius: 30px; padding: 15px 26px; box-shadow: 0 2px 10px rgba(11,36,71,0.06); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; color: #4B4B4B; appearance: none;">
+                <option value="">You enquire about…</option>
+                <option value="glazing">Window or skylight glazing</option>
+                <option value="doors">Doors &amp; windows</option>
+                <option value="civil">Civil &amp; renovation works</option>
+                <option value="street">Rain protection, railings, footpaths</option>
+                <option value="other">Something else</option>
+              </select>
+            </form>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 560px; margin: 24px auto 0; flex-wrap: wrap;">
+              <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #8A8A8A; text-align: left;">We reply fastest on WhatsApp.<br>Required fields are marked *</p>
+              <a data-btn="" href="https://wa.me/8801672914871" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 14px; background: #0B2447; border-radius: 30px; color: #FFFFFF; text-decoration: none; font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 700; padding: 5px 5px 5px 26px;" data-hv="3">
+                <span>Get a call back</span>
+                <span class="chip" style="display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #FFFFFF; color: #0B2447; flex: 0 0 auto;">
+                  <svg viewBox="0 0 20 20" aria-hidden="true" style="width: 14px; height: 14px;"><path d="M5 15L15 5M7.5 5H15v7.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div aria-hidden="true" style="position: absolute; bottom: 0; left: 0; width: 220px; height: 60px; background: #FFFFFF; border-radius: 0 30px 0 0; z-index: 2;">
+            <span class="fillet" style="background: #FFFFFF; top: -30px; left: 0;"></span>
+            <span class="fillet" style="background: #FFFFFF; bottom: 0; right: -30px;"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #0B2447; border-radius: 50px 50px 0 0; margin: clamp(24px, 3vw, 40px) 0 0; color: #FFFFFF; padding: clamp(48px, 7vw, 72px) clamp(20px, 4vw, 40px) 24px;">
+    <div style="max-width: 1290px; margin: 0 auto;">
+      <div data-footer-grid="" style="display: grid; grid-template-columns: 1.3fr 0.8fr 1fr 1.15fr; gap: clamp(28px, 4vw, 48px); padding-bottom: clamp(28px, 4vw, 44px);">
+        <div>
+          <a href="index.html" aria-label="Alif Construction Limited, home" style="display: inline-flex; align-items: center; gap: 13px; text-decoration: none;">
+            <img src="assets/alif-mark-reversed.svg" alt="" style="height: 48px; width: auto;">
+            <span style="display: flex; flex-direction: column; gap: 3px;">
+              <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.12em; color: #FFFFFF; text-transform: uppercase; white-space: nowrap;">Alif Construction</span>
+              <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 8px; letter-spacing: 0.44em; color: #B0B0B0; text-transform: uppercase;">Limited</span>
+            </span>
+          </a>
+          <p style="margin: 18px 0 0; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.88); max-width: 36ch;">Civil construction, renovation and architectural works, delivered to international contractor standards.</p>
+          <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.6); max-width: 32ch;">Baitul Aman Housing, 726/14, Adabor Road-10, Dhaka-1207</p>
+        </div>
+        <nav aria-label="Footer">
+          <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; color: #B0B0B0; text-transform: uppercase; margin-bottom: 14px;">Pages</span>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px;">
+            <a href="index.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Home</a>
+            <a href="clients.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Clients</a>
+            <a href="about.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">About</a>
+            <a href="gallery.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Gallery</a>
+            <a href="services.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Services</a>
+            <a href="contact.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Contact</a>
+            <a href="projects.html" style="font-size: 15px; color: rgba(255,255,255,0.92); text-decoration: none; padding: 5px 0;" data-hv="2">Projects</a>
+          </div>
+        </nav>
+        <div>
+          <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; color: #B0B0B0; text-transform: uppercase; margin-bottom: 14px;">Reach us</span>
+          <p style="margin: 0 0 9px; font-size: 14px;"><span style="color: #B0B0B0;">WhatsApp:</span> <a href="https://wa.me/8801672914871" target="_blank" rel="noopener" style="color: #FFFFFF; text-decoration: none;" data-hv="1">+880 1672-914871</a></p>
+          <p style="margin: 0 0 9px; font-size: 14px;"><span style="color: #B0B0B0;">Call:</span> <a href="tel:+8801318588248" style="color: #FFFFFF; text-decoration: none;" data-hv="1">+880 1318-588248</a></p>
+          <p style="margin: 0; font-size: 14px; overflow-wrap: anywhere;"><span style="color: #B0B0B0;">Email:</span> <a href="mailto:msalifconstruction@outlook.com" data-swap="email" style="color: #FFFFFF;" data-hv="1">msalifconstruction@outlook.com</a></p>
+        </div>
+        <div>
+          <span style="display: block; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; color: #B0B0B0; text-transform: uppercase; margin-bottom: 14px;">Compliance</span>
+          <p style="margin: 0 0 10px; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.92);">Established June 2019 · e-GP GOB Procurement enlisted · Trade Licence TRAD/DNCC/051987/2022</p>
+          <p style="margin: 0; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.6);">Bankers: City Bank Banani · EBL Keraniganj</p>
+        </div>
+      </div>
+      <div style="border-top: 0.8px solid rgba(255,255,255,0.12); padding-top: 16px;">
+        <p style="margin: 0; font-size: 12.5px; line-height: 1.8; color: rgba(255,255,255,0.72);">Alif Construction Limited · Legal entity: M/S Alif Construction · Trade Licence TRAD/DNCC/051987/2022 · Dhaka-1207</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
