@@ -40,14 +40,6 @@
     counters.forEach(function (el) { cio.observe(el); });
   }
 
-  // Hero video: show once it can play (still image stays underneath as poster/fallback)
-  var video = document.querySelector('[data-hero-video]');
-  if (video && !reduced) {
-    var ready = function () { video.setAttribute('data-ready', ''); };
-    if (video.readyState >= 2) ready(); else video.addEventListener('loadeddata', ready, { once: true });
-    var p = video.play(); if (p && p.catch) p.catch(function () {});
-  }
-
   // State: lang, menu, quote
   var header = document.querySelector('header[data-menu]');
   var menuBtn = document.querySelector('[data-menu-btn]');

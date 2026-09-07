@@ -18,7 +18,4 @@
 /* runtime defaults for the tweakable motion props */
 [data-train-zone] { --train-dur: 16s; }
 [data-marquee] { --marquee-dur: 30s; }
-[data-hero-video] { display: none; }
-[data-hero-video][data-ready] { display: block; }
-@media (prefers-reduced-motion: reduce) { [data-hero-video] { display: none !important; } }
 [hidden] { display: none !important; }
